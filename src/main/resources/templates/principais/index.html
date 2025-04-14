@@ -21,17 +21,32 @@
             <i class="fas fa-chevron-down"></i>
         </a>
     </div>
-
     <div class="container my-5">
         <h2 class="news-title">Últimas Postagens</h2>
-        <div class="row mt-4" th:each="postagem : ${postagens}">
-            <div class="col-md-4">
-                <img th:src="@{${postagem.imagem}}" class="img-fluid rounded" alt="Imagem da Notícia">
+
+        <div class="row mt-4 mb-5" th:each="postagem, iterStat : ${postagens}">
+            <!-- Quando o índice for par (0, 2, 4...) -->
+            <div th:if="${iterStat.index % 2 == 0}" class="row align-items-center">
+                <div class="col-md-4">
+                    <img th:src="@{${postagem.imagem}}" class="img-fluid rounded" alt="Imagem da Notícia">
+                </div>
+                <div class="col-md-8">
+                    <h3 class="mt-2" th:text="${postagem.titulo}"></h3>
+                    <p th:utext="${postagem.textoAbreviadoComoHtml}"></p>
+                    <a th:href="@{/postagem/{id}(id=${postagem.id})}" class="news-button">Continue lendo</a>
+                </div>
             </div>
-            <div class="col-md-8">
-                <h3 class="mt-2" th:text="${postagem.titulo}"></h3>
-                <p th:utext="${postagem.textoAbreviadoComoHtml}"></p>
-                <a th:href="@{/postagem/{id}(id=${postagem.id})}" class="news-button">Continue lendo</a>
+
+            <!-- Quando o índice for ímpar (1, 3, 5...) -->
+            <div th:unless="${iterStat.index % 2 == 0}" class="row align-items-center">
+                <div class="col-md-8">
+                    <h3 class="mt-2" th:text="${postagem.titulo}"></h3>
+                    <p th:utext="${postagem.textoAbreviadoComoHtml}"></p>
+                    <a th:href="@{/postagem/{id}(id=${postagem.id})}" class="news-button">Continue lendo</a>
+                </div>
+                <div class="col-md-4">
+                    <img th:src="@{${postagem.imagem}}" class="img-fluid rounded" alt="Imagem da Notícia">
+                </div>
             </div>
         </div>
     </div>

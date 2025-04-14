@@ -19,7 +19,7 @@ public class PageController {
 
     @GetMapping("/")
     public String index(@RequestParam(value = "page", defaultValue = "0") int page,
-                        @RequestParam(value = "size", defaultValue = "2") int size,
+                        @RequestParam(value = "size", defaultValue = "10") int size,
                         Model model) {
         return pageService.carregarDadosIndex(page, size, model);
     }

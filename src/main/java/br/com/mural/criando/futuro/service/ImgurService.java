@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,6 +13,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 @Service
 public class ImgurService {
@@ -24,18 +27,34 @@ public class ImgurService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Client-ID " + IMGUR_CLIENT_ID);
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        // Define o recurso da imagem com nome e tipo correto
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("image", new ByteArrayResource(file.getBytes()) {
-            @Override
-            public String getFilename() {
-                return file.getOriginalFilename();
-            }
-        });
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder("form-data")
+                .name("image")
+                .filename(file.getOriginalFilename())
+                .build();
+
+        HttpHeaders fileHeaders = new HttpHeaders();
+        fileHeaders.setContentDisposition(contentDisposition);
+        fileHeaders.setContentType(MediaType.parseMediaType(Objects.requireNonNull(file.getContentType())));
+
+        HttpEntity<Resource> fileEntity = new HttpEntity<>(
+                new ByteArrayResource(file.getBytes()) {
+                    @Override
+                    public String getFilename() {
+                        return file.getOriginalFilename(); // necessário para o Content-Disposition
+                    }
+                }, fileHeaders
+        );
+
+        body.add("image", fileEntity);
+
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        logger.info("Enviando imagem com tamanho: {} bytes", file.getSize());
-        logger.info("Cabeçalhos da requisição: {}", headers);
+        logger.info("Enviando imagem: {}", file.getOriginalFilename());
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
@@ -49,6 +68,7 @@ public class ImgurService {
             throw new Exception("Erro no upload da imagem.");
         }
     }
+
 
     public String uploadImageWithRetry(MultipartFile file) {
         int retries = 3;

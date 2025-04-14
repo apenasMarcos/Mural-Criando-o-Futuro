@@ -4,7 +4,10 @@ import br.com.mural.criando.futuro.model.postagem.Postagem;
 import br.com.mural.criando.futuro.service.PostagemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
@@ -55,7 +58,7 @@ public class PostagemController {
     public String getPostagem(@PathVariable(value = "id") Long id,Model model) {
         Optional<Postagem> postagemOpt = postagemService.getPostagemById(id);
         postagemOpt.ifPresent(postagem -> model.addAttribute("postagem", postagem));
-        return "postagens/editarPostagens";
+        return "postagens/editarPostagem";
     }
 
     @GetMapping("/excluir-postagens")

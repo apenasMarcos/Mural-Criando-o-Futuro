@@ -1,6 +1,9 @@
 package br.com.mural.criando.futuro.service;
 
-import br.com.mural.criando.futuro.model.cardapio.*;
+import br.com.mural.criando.futuro.model.cardapio.SemanaDTO;
+import br.com.mural.criando.futuro.model.cardapio.Semana;
+
+
 import br.com.mural.criando.futuro.model.cardapio.enums.SemanaTipo;
 import br.com.mural.criando.futuro.repository.SemanaRepository;
 import com.github.benmanes.caffeine.cache.Cache;

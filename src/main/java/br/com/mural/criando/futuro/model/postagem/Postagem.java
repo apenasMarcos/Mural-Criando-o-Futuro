@@ -1,6 +1,15 @@
 package br.com.mural.criando.futuro.model.postagem;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Column;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.PrePersist;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

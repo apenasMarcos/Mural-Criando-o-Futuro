@@ -39,8 +39,16 @@
     text-transform: uppercase;
 }
 
+.img-fluid {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
 /* Botões */
-.news-button {
+.news-button,
+.btn-primary {
     background-color: transparent;
     color: #19779f;
     border: 2px solid #19779f;
@@ -65,18 +73,7 @@
     box-shadow: 0 0 5px rgba(0, 82, 140, 0.4);
 }
 
-.btn-primary {
-    background-color: transparent;
-    color: #19779f;
-    border: 2px solid #19779f;
-    padding: 6px 16px;
-    border-radius: 25px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+
 
 .btn-primary:hover {
     background-color: #19779f;

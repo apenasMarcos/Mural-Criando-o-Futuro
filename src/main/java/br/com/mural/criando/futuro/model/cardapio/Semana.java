@@ -1,7 +1,13 @@
 package br.com.mural.criando.futuro.model.cardapio;
 
 import br.com.mural.criando.futuro.model.cardapio.enums.SemanaTipo;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
 import lombok.Getter;
 import lombok.Setter;
 
